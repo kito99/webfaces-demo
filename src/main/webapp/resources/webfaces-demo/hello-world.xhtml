@@ -9,16 +9,71 @@
         <cc:attribute name="message" type="java.lang.String"/>
     </cc:interface>
     <cc:implementation>
-        <h:outputScript src="#{facesContext.externalContext.requestContextPath}/resources/bower_components/webcomponentsjs/webcomponents-lite.js" target="head"/>
+        <h:outputScript
+                src="#{facesContext.externalContext.requestContextPath}/resources/bower_components/webcomponentsjs/webcomponents-lite.js"
+                target="head"/>
         <h:outputScript name="HelloWorld.js" library="webfaces-demo" target="body"/>
 
         <wf:template id="hello-world-template">
             <div class="test">
-              Hello world, <span id="message"/>
+                Hello world, <span id="message"/>
             </div>
         </wf:template>
 
         <hello-world class="test" id="#{cc.attrs.id}" message="#{cc.attrs.message}!"/>
+
+        <wf:renderOnce group="webfaces-demo-hello-world">
+            <h:outputScript id="hello-world-script">
+                class HelloWorld extends HTMLElement {
+
+                    static get observedAttributes() {
+                        return ['message'];
+                    }
+
+                    constructor() {
+                        super();
+                        let template = document.querySelector('#hello-world-template').content.cloneNode(true);
+                        let root = this.attachShadow({mode: 'open'});
+                        root.appendChild(template);
+                    }
+
+                    get message() {
+                        return this.hasAttribute('message');
+                    }
+
+                    set message(message) {
+                        if (message) {
+                            this.setAttribute('message', message);
+                        } else {
+                            this.removeAttribute('message');
+                        }
+                    }
+
+                    /** Fires when an instance was inserted into the document */
+                    connectedCallback() {
+
+                    };
+
+                    /** Fires when an instance was removed from the document */
+                    disconnectedCallback() {
+                    };
+
+                    /** Fires when an attribute was added, removed, or updated */
+                    attributeChangedCallback(attr, oldVal, newVal) {
+                        if (attr === 'message') {
+                            let messageElement = this.shadowRoot.querySelector('#message');
+                            messageElement.innerText = newVal;
+                        }
+                    }
+
+                    /** Fires when the element is moved to a new document */
+                    adoptedCallback() {
+                    }
+                }
+                window.customElements.define('hello-world', HelloWorld);
+
+            </h:outputScript>
+        </wf:renderOnce>
     </cc:implementation>
 
 </ui:composition>
