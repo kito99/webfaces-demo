@@ -12,7 +12,15 @@
     <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/resources/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 </h:head>
 <h:body>
-    <demo:hello-world id="hello1" message="JavaOne"/>
-    <demo:hello-world-external-js id="hello2" message="JavaOne again"/>
+    <demo:hello-world id="hello1" message="#{param.message}"/>
+    <demo:hello-world-external-js id="hello2" message="#{param.message}"/>
+    <label for="messageInput">Enter a new message:</label>
+    <input id="messageInput" value="#{param.message}" onkeyup="updateComponents(this.value)"></input>
+    <script type="text/javascript">
+        function updateComponents(value) {
+        	document.querySelector('#hello1').message = value;
+        	document.querySelector('#hello2').message = value;
+        }
+    </script>
 </h:body>
 </html>

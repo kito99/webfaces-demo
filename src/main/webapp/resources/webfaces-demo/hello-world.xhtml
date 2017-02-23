@@ -11,7 +11,7 @@
     <cc:implementation>
         <wf:template id="hello-world-template" blah="baz">
             <div>
-                Hello world, <span id="message"/>
+                Hello world, <span id="message">#{cc.attrs.message}</span>
             </div>
         </wf:template>
 

@@ -1,4 +1,4 @@
-class HelloWorld extends HTMLElement {
+class HelloWorldExternal extends HTMLElement {
 
 	static get observedAttributes() {
 		return ['message'];
@@ -44,4 +44,4 @@ class HelloWorld extends HTMLElement {
 	adoptedCallback() {
 	}
 }
-window.customElements.define('hello-world', HelloWorld);
+window.customElements.define('hello-world-external', HelloWorldExternal);
