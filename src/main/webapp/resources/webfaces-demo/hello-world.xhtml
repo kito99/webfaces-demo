@@ -9,9 +9,19 @@
         <cc:attribute name="message" type="java.lang.String"/>
     </cc:interface>
     <cc:implementation>
-        <wf:template id="hello-world-template" blah="baz">
+        <wf:template id="hello-world-template" pass-through-attribute="blah">
+            <style>
+                :host {
+                    display: block;
+                    border-style: solid;
+                    border: 1px;
+                }
+            </style>
             <div>
-                Hello world, <span id="message">#{cc.attrs.message}</span>
+                Hello world, <span id="message">#{cc.attrs.message}</span>.
+            </div>
+            <div>
+                You are using #{facesContext.externalContext.request.getHeader('User-Agent')}.
             </div>
         </wf:template>
 
